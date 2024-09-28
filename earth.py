@@ -31,3 +31,13 @@ def acceleration(r):
     return (-G*M_sun / np.linalg.norm(r)**3) * r
 
 # print(acceleration(r_0)) --> output: [-0.00613532 -0.        ]
+
+
+# Euler method Integration
+def euler_method(r, v, accn, dt):
+    for i in range(1, len(t)):
+        r[i] = r[i-1] + v[i-1]*dt
+        v[i] = v[i-1] + accn(r[i-1])*dt
+
+euler_method(r,v,acceleration,dt)
+print(r)
