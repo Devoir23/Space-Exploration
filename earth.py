@@ -39,5 +39,14 @@ def euler_method(r, v, accn, dt):
         r[i] = r[i-1] + v[i-1]*dt
         v[i] = v[i-1] + accn(r[i-1])*dt
 
+
+# Apply Euler method
 euler_method(r,v,acceleration,dt)
-print(r)
+
+# position and velocity of earth at Aphelion
+sizes = np.array([np.linalg.norm(position) for position in r])
+position_aphelion = np.max(sizes)
+arg_aphelion = np.argmax(sizes)
+velocity_aphelion = np.linalg.norm(v[arg_aphelion])
+
+print(position_aphelion/10e8, velocity_aphelion/10e2)
