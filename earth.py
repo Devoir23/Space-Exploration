@@ -33,17 +33,62 @@ def acceleration(r):
 # print(acceleration(r_0)) --> output: [-0.00613532 -0.        ]
 
 
-# Euler method Integration
+# todo: Euler method Integration
 def euler_method(r, v, accn, dt):
     for i in range(1, len(t)):
         r[i] = r[i-1] + v[i-1]*dt
         v[i] = v[i-1] + accn(r[i-1])*dt
 
 
-# Apply Euler method
+# todo: Apply Euler method
 euler_method(r,v,acceleration,dt)
 
-# position and velocity of earth at Aphelion
+
+# todo: RK4 method integration
+def rk4_method(r, v, acceleration, dt):
+    """
+    ODE for position:
+    --> dr/dt = v
+    --> r_new = r_old + dt/6(k1r + 2*k2r + 2*k3r + k4)
+
+    ODE for velocity:
+    --> dv/dt = a
+    --> v_new = v_old + dt/6(k1v + 2*k2v + 2*k3r + k4)
+
+    step 1: 0
+    k1v = accb(r[i-1]);  k1r = v[i-1]
+
+    step 2: dt/2 using step 1
+    k2v = accn(r[i-1]+1 + k1r * dt/2 ); k2r = v[i-1] + k1v * dt/2
+
+    step 3:
+    k3v = accn(r[i-1] + k2r * dt/2), k3r = v[i-1] + k2v * dt/2
+    step 4:
+    k4v
+    k4r
+
+    """
+
+    for i in range(1,len(r)):
+        k1v = acceleration(r[i - 1])
+        k1r = v[i - 1]
+
+        k2v = acceleration(r[i - 1] + k1r * dt / 2)
+        k2r = v[i - 1] + k1v * dt / 2
+
+        k3v = acceleration(r[i - 1] + k2r * dt / 2)
+        k3r = v[i - 1] + k2v * dt / 2
+
+        k4v = acceleration(r[i - 1] + k3r * dt )
+        k4r = v[i - 1] + k3v * dt
+
+        # update the r and v
+        v[i] = v[i-1] + dt/6*(k1v + 2*k2v + 2*k3v + k4v)
+        r[i] = r[i-1] + dt/6*(k1r + 2*k2r + 2*k3r + k4r)
+
+rk4_method(r, v, acceleration, dt)
+
+# todo: position and velocity of earth at Aphelion
 sizes = np.array([np.linalg.norm(position) for position in r])
 position_aphelion = np.max(sizes)
 arg_aphelion = np.argmax(sizes)
