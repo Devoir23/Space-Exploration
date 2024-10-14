@@ -86,7 +86,19 @@ def rk4_method(r, v, acceleration, dt):
         v[i] = v[i-1] + dt/6*(k1v + 2*k2v + 2*k3v + k4v)
         r[i] = r[i-1] + dt/6*(k1r + 2*k2r + 2*k3r + k4r)
 
-rk4_method(r, v, acceleration, dt)
+# rk4_method(r, v, acceleration, dt)
+
+
+def numerical_integration(r, v, acceleration, dt, method="euler"):
+    if method.lower()=="euler":
+        euler_method(r, v, acceleration, dt)
+    elif method.lower()=="rk4":
+        rk4_method(r, v, acceleration, dt)
+    else:
+        raise Exception(f'You can either choose "euler" or "rk4". Your current input for methodd is : {method}')
+
+# call numerical integration function
+numerical_integration(r, v, acceleration, dt, method="euler")
 
 # todo: position and velocity of earth at Aphelion
 sizes = np.array([np.linalg.norm(position) for position in r])
